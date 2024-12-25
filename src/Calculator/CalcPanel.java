@@ -5,10 +5,9 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 public class CalcPanel extends JPanel {
+	private static final long serialVersionUID = 1L;
 	JTextField show;
 	JTextField ans;
 
@@ -22,7 +21,7 @@ public class CalcPanel extends JPanel {
 	Float preNum;
 	Float curNum;
 	Float answer;
-	
+
 	int col = 4;
 
 	public CalcPanel() {
@@ -158,8 +157,6 @@ public class CalcPanel extends JPanel {
 
 	private void hehe(String op) {
 		String s = ans.getText();
-		if (s.length() == 0)
-			return;
 		if (op == operator)
 			return;
 		operator = op;
@@ -168,6 +165,8 @@ public class CalcPanel extends JPanel {
 			show.setText(preNum + " " + operator);
 			return;
 		}
+		if (s.length() == 0)
+			return;
 		if (preNum != null && op.length() == 1 && s.length() > 0) {
 			float a = cal(bOperator);
 			show.setText(a + " " + operator);
@@ -196,8 +195,6 @@ public class CalcPanel extends JPanel {
 		}
 		case "/" -> {
 			if (curNum == 0) {
-				// JOptionPane.showMessageDialog(this, "nononononononono", "Error",
-				// JOptionPane.ERROR_MESSAGE);
 				reset();
 			} else {
 				a = preNum / curNum;
@@ -210,12 +207,12 @@ public class CalcPanel extends JPanel {
 
 	private void reset() {
 		ans.setText("");
+		show.setText("");
 		operator = "";
 		bOperator = "";
 		preNum = null;
 		curNum = null;
 		answer = null;
-		show.setText("");
 	}
 
 	private JTextField createField(int x, int y, int h, int w) {
