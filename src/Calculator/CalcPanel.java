@@ -13,14 +13,17 @@ public class CalcPanel extends JPanel {
 	JTextField ans;
 
 	JButton[] bnList;
+
 	String[] bttext = { "%", "CE", "C", "←", "7", "8", "9", "x", "4", "5", "6", "-", "1", "2", "3", "+", "0", ".",
 			"(-)", "/", "√", "| |", "=" };
-	int col = 4;
 	String operator = "";
 	String bOperator = "";
+
 	Float preNum;
 	Float curNum;
 	Float answer;
+	
+	int col = 4;
 
 	public CalcPanel() {
 		bnList = new JButton[30];
@@ -146,7 +149,7 @@ public class CalcPanel extends JPanel {
 						float num1 = (float) Math.abs(num);
 						ans.setText(String.valueOf(num1));
 					}
-					
+
 					}
 				}
 			}
@@ -193,14 +196,14 @@ public class CalcPanel extends JPanel {
 		}
 		case "/" -> {
 			if (curNum == 0) {
-				//JOptionPane.showMessageDialog(this, "nononononononono", "Error", JOptionPane.ERROR_MESSAGE);
+				// JOptionPane.showMessageDialog(this, "nononononononono", "Error",
+				// JOptionPane.ERROR_MESSAGE);
 				reset();
 			} else {
 				a = preNum / curNum;
 			}
 		}
 		}
-		// a = round(a, 5);
 		answer = a;
 		return a;
 	}
@@ -215,15 +218,6 @@ public class CalcPanel extends JPanel {
 		show.setText("");
 	}
 
-//
-//	public static float round(float value, int places) {
-//		if (places < 0)
-//			throw new IllegalArgumentException();
-//
-//		BigDecimal bd = BigDecimal.valueOf(value);
-//		bd = bd.setScale(places, RoundingMode.HALF_UP);
-//		return bd.floatValue();
-//	}
 	private JTextField createField(int x, int y, int h, int w) {
 		JTextField field = new JTextField("0");
 		field.setBounds(x, y, h, w);
