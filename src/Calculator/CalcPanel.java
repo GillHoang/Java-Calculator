@@ -14,7 +14,7 @@ public class CalcPanel extends JPanel {
 
 	JButton[] bnList;
 	String[] bttext = { "%", "CE", "C", "←", "7", "8", "9", "x", "4", "5", "6", "-", "1", "2", "3", "+", "0", ".",
-			"(-)", "/", "√", "", "=" };
+			"(-)", "/", "√", "| |", "=" };
 	int col = 4;
 	String operator = "";
 	String bOperator = "";
@@ -141,6 +141,12 @@ public class CalcPanel extends JPanel {
 						float num1 = (float) Math.sqrt(num);
 						ans.setText(String.valueOf(num1));
 					}
+					case "| |" -> {
+						float num = Float.parseFloat(s);
+						float num1 = (float) Math.abs(num);
+						ans.setText(String.valueOf(num1));
+					}
+					
 					}
 				}
 			}
@@ -187,7 +193,7 @@ public class CalcPanel extends JPanel {
 		}
 		case "/" -> {
 			if (curNum == 0) {
-				JOptionPane.showMessageDialog(this, "nononononononono", "Error", JOptionPane.ERROR_MESSAGE);
+				//JOptionPane.showMessageDialog(this, "nononononononono", "Error", JOptionPane.ERROR_MESSAGE);
 				reset();
 			} else {
 				a = preNum / curNum;
