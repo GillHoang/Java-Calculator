@@ -4,22 +4,24 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Calc extends JFrame {
-    CalcPanel cp;
+	private static final long serialVersionUID = 1L;
+	CalcPanel cp;
 
-    public Calc() {
-    	super("haha");
-        cp= new CalcPanel();
-        this.add(cp);
+	public Calc() {
+		super("haha");
+		cp = new CalcPanel();
+		this.add(cp);
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
-        setLocation(700,100);
-        setSize(300,550);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
+		setLocation(700, 100);
+		setSize(300, 550);
+		setResizable(false);
+		setBackground(Color.decode("#333333"));
 
-    }
+	}
 
-    public static void main(String[] args) {
-        new Calc();
-    }
+	public static void main(String[] args) {
+		new Calc();
+	}
 }
-
