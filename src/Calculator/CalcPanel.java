@@ -154,23 +154,25 @@ public class CalcPanel extends JPanel {
 
 	private void hehe(String op) {
 		String s = ans.getText();
-		if (op == operator)
-			return;
-		operator = op;
-		bOperator = op;
 		if (s.length() == 0 && preNum != null) {
+			operator = op;
+			bOperator = op;
 			show.setText(preNum + " " + operator);
 			return;
 		}
-		if (s.length() == 0)
+		if (op == operator)
 			return;
 		if (preNum != null && op.length() == 1 && s.length() > 0) {
 			float a = cal(bOperator);
+			operator = op;
+			bOperator = op;
 			show.setText(a + " " + operator);
 			ans.setText("");
 			preNum = a;
 			return;
 		}
+		operator = op;
+		bOperator = op;
 		show.setText(s + " " + operator);
 		ans.setText("");
 		preNum = Float.parseFloat(s);
