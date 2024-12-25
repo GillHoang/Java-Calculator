@@ -10,14 +10,11 @@ public class CalcPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	JTextField show;
 	JTextField ans;
-
 	JButton[] bnList;
-
 	String[] bttext = { "%", "CE", "C", "←", "7", "8", "9", "x", "4", "5", "6", "-", "1", "2", "3", "+", "0", ".",
 			"(-)", "/", "√", "| |", "=" };
 	String operator = "";
 	String bOperator = "";
-
 	Float preNum;
 	Float curNum;
 	Float answer;
