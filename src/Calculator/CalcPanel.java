@@ -13,8 +13,8 @@ public class CalcPanel extends JPanel {
 	JTextField ans;
 
 	JButton[] bnList;
-	String[] bttext = { "%", "CE", "C", "<=", "7", "8", "9", "x", "4", "5", "6", "-", "1", "2", "3", "+", "0", ".", "",
-			"/", "", "", "=" };
+	String[] bttext = { "%", "CE", "C", "←", "7", "8", "9", "x", "4", "5", "6", "-", "1", "2", "3", "+", "0", ".",
+			"(-)", "/", "√", "", "=" };
 	int col = 4;
 	String operator = "";
 	String bOperator = "";
@@ -57,6 +57,10 @@ public class CalcPanel extends JPanel {
 					BorderFactory.createLineBorder(Color.white, 2)));
 			if (bttext[i].equals("=")) {
 				b.setSize(108 + 15, 54);
+				b.setBackground(Color.decode("#3489a6"));
+			}
+			if (bttext[i].equals("C")) {
+				b.setBackground(Color.decode("#DC4405"));
 			}
 			b.setActionCommand(bttext[i]);
 			b.addActionListener(bntAction(show, ans));
@@ -132,10 +136,19 @@ public class CalcPanel extends JPanel {
 						reset();
 					}
 					case "%" -> {
-				        float percentValue = Float.parseFloat(s) / 100;
-				        ans.setText(String.valueOf(percentValue));
-				        preNum = percentValue;
-				        show.setText(String.valueOf(percentValue));					}
+						float percentValue = Float.parseFloat(s) / 100;
+						ans.setText(String.valueOf(percentValue));
+					}
+					case "(-)" -> {
+						float num = Float.parseFloat(s);
+						float num1 = num - 2 * num;
+						ans.setText(String.valueOf(num1));
+					}
+					case "căn 2" -> {
+						float num = Float.parseFloat(s);
+						float num1 = (float) Math.sqrt(num);
+						ans.setText(String.valueOf(num1));
+					}
 					}
 				}
 			}
@@ -191,7 +204,7 @@ public class CalcPanel extends JPanel {
 			}
 		}
 		}
-		//a = round(a, 5);
+		// a = round(a, 5);
 		answer = a;
 		return a;
 	}
