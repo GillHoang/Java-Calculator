@@ -25,22 +25,8 @@ public class CalcPanel extends JPanel {
 	public CalcPanel() {
 		bnList = new JButton[30];
 		setLayout(null);
-		show = new JTextField("0");
-		show.setBounds(15, 5, 260, 40);
-		show.setHorizontalAlignment(SwingConstants.RIGHT);
-		show.setFont(new Font("Digital-7", Font.BOLD, 25));
-		show.setBorder(new LineBorder(Color.decode("#dddddd"), 1, true));
-		show.setFocusable(false);
-		show.setEditable(false);
-
-		ans = new JTextField("0");
-		ans.setBounds(15, 50, 260, 25);
-		ans.setHorizontalAlignment(SwingConstants.RIGHT);
-		ans.setFont(new Font("Digital-7", Font.BOLD, 25));
-		ans.setBorder(new LineBorder(Color.decode("#dddddd"), 1, true));
-		ans.setFocusable(false);
-		ans.setEditable(false);
-
+		show = createField(15, 5, 260, 40);
+		ans = createField(15, 50, 260, 25);
 		this.add(show);
 		this.add(ans);
 
@@ -90,7 +76,7 @@ public class CalcPanel extends JPanel {
 					}
 				} catch (NumberFormatException ex) {
 					switch (name) {
-					case "<=" -> {
+					case "←" -> {
 						if (s.length() == 0) {
 							ans.setText("0");
 						} else
@@ -130,7 +116,13 @@ public class CalcPanel extends JPanel {
 						ans.setText(s.concat("."));
 					}
 					case "CE" -> {
-						ans.setText("");
+						if (answer != null && operator.length() == 0) {
+							reset();
+						} else if (operator.length() > 0 && s.length() == 0) {
+							return;
+						} else if (s.length() > 0) {
+							ans.setText("");
+						}
 					}
 					case "C" -> {
 						reset();
@@ -144,7 +136,7 @@ public class CalcPanel extends JPanel {
 						float num1 = num - 2 * num;
 						ans.setText(String.valueOf(num1));
 					}
-					case "căn 2" -> {
+					case "√" -> {
 						float num = Float.parseFloat(s);
 						float num1 = (float) Math.sqrt(num);
 						ans.setText(String.valueOf(num1));
@@ -157,25 +149,23 @@ public class CalcPanel extends JPanel {
 
 	private void hehe(String op) {
 		String s = ans.getText();
+		if (s.length() == 0)
+			return;
+		if (op == operator)
+			return;
+		operator = op;
+		bOperator = op;
 		if (s.length() == 0 && preNum != null) {
-			operator = op;
-			bOperator = op;
 			show.setText(preNum + " " + operator);
 			return;
 		}
-		if (op == operator)
-			return;
 		if (preNum != null && op.length() == 1 && s.length() > 0) {
 			float a = cal(bOperator);
-			operator = op;
-			bOperator = op;
 			show.setText(a + " " + operator);
 			ans.setText("");
 			preNum = a;
 			return;
 		}
-		operator = op;
-		bOperator = op;
 		show.setText(s + " " + operator);
 		ans.setText("");
 		preNum = Float.parseFloat(s);
@@ -219,12 +209,23 @@ public class CalcPanel extends JPanel {
 		show.setText("");
 	}
 
-	public static float round(float value, int places) {
-		if (places < 0)
-			throw new IllegalArgumentException();
-
-		BigDecimal bd = BigDecimal.valueOf(value);
-		bd = bd.setScale(places, RoundingMode.HALF_UP);
-		return bd.floatValue();
+//
+//	public static float round(float value, int places) {
+//		if (places < 0)
+//			throw new IllegalArgumentException();
+//
+//		BigDecimal bd = BigDecimal.valueOf(value);
+//		bd = bd.setScale(places, RoundingMode.HALF_UP);
+//		return bd.floatValue();
+//	}
+	private JTextField createField(int x, int y, int h, int w) {
+		JTextField field = new JTextField("0");
+		field.setBounds(x, y, h, w);
+		field.setHorizontalAlignment(SwingConstants.RIGHT);
+		field.setFont(new Font("Digital-7", Font.BOLD, 25));
+		field.setBorder(new LineBorder(Color.decode("#dddddd"), 1, true));
+		field.setFocusable(false);
+		field.setEditable(false);
+		return field;
 	}
 }
