@@ -18,9 +18,9 @@ public class CalcPanel extends JPanel {
 	int col = 4;
 	String operator = "";
 	String bOperator = "";
-	Double preNum;
-	Double curNum;
-	Double answer;
+	Float preNum;
+	Float curNum;
+	Float answer;
 
 	public CalcPanel() {
 		bnList = new JButton[30];
@@ -107,10 +107,13 @@ public class CalcPanel extends JPanel {
 					case "=" -> {
 						if (preNum == null && curNum == null && s.length() > 0) {
 							return;
-						} else if ( preNum != null && operator.length() == 1) {
-							curNum = 0.0;
+						} else if (preNum != null && (operator.length() == 1)) {
+							curNum = 0.0f;
+						} else if (preNum == null) {
+							preNum = 0.0f;
 						}
-						double a = cal(operator);
+						operator = bOperator;
+						float a = cal(operator);
 						show.setText(String.valueOf(preNum) + " " + operator + " " + String.valueOf(curNum) + " =");
 						operator = "";
 						ans.setText(String.valueOf(a));
@@ -118,23 +121,21 @@ public class CalcPanel extends JPanel {
 						preNum = null;
 					}
 					case "." -> {
-						if (s.contains("."))
+						if (s.contains(".") || s.endsWith("."))
 							return;
 						ans.setText(s.concat("."));
 					}
 					case "CE" -> {
-						if (preNum != null && s.length() > 0) {
-							ans.setText("");
-						} else if (preNum != null && s.length() == 0) {
-							reset();
-						}
+						ans.setText("");
 					}
 					case "C" -> {
 						reset();
 					}
 					case "%" -> {
-						ans.setText(String.valueOf(Double.valueOf(s) / 100));
-					}
+				        float percentValue = Float.parseFloat(s) / 100;
+				        ans.setText(String.valueOf(percentValue));
+				        preNum = percentValue;
+				        show.setText(String.valueOf(percentValue));					}
 					}
 				}
 			}
@@ -143,9 +144,16 @@ public class CalcPanel extends JPanel {
 
 	private void hehe(String op) {
 		String s = ans.getText();
-		if (op == operator) return;
+		if (s.length() == 0 && preNum != null) {
+			operator = op;
+			bOperator = op;
+			show.setText(preNum + " " + operator);
+			return;
+		}
+		if (op == operator)
+			return;
 		if (preNum != null && op.length() == 1 && s.length() > 0) {
-			double a = cal(bOperator);
+			float a = cal(bOperator);
 			operator = op;
 			bOperator = op;
 			show.setText(a + " " + operator);
@@ -157,13 +165,13 @@ public class CalcPanel extends JPanel {
 		bOperator = op;
 		show.setText(s + " " + operator);
 		ans.setText("");
-		preNum = Double.valueOf(s);
+		preNum = Float.parseFloat(s);
 	}
 
-	private double cal(String op) {
-		double a = 0.0;
+	private float cal(String op) {
+		float a = 0.0f;
 		String s = ans.getText();
-		curNum = Double.valueOf(s);
+		curNum = Float.parseFloat(s);
 		switch (op) {
 		case "+" -> {
 			a = preNum + curNum;
@@ -173,9 +181,17 @@ public class CalcPanel extends JPanel {
 		}
 		case "*" -> {
 			a = preNum * curNum;
-			a = round(a, 5);
+		}
+		case "/" -> {
+			if (curNum == 0) {
+				JOptionPane.showMessageDialog(this, "nononononononono", "Error", JOptionPane.ERROR_MESSAGE);
+				reset();
+			} else {
+				a = preNum / curNum;
+			}
 		}
 		}
+		//a = round(a, 5);
 		answer = a;
 		return a;
 	}
@@ -189,12 +205,13 @@ public class CalcPanel extends JPanel {
 		answer = null;
 		show.setText("");
 	}
-	
-	public static double round(double value, int places) {
-	    if (places < 0) throw new IllegalArgumentException();
 
-	    BigDecimal bd = BigDecimal.valueOf(value);
-	    bd = bd.setScale(places, RoundingMode.HALF_UP);
-	    return bd.doubleValue();
+	public static float round(float value, int places) {
+		if (places < 0)
+			throw new IllegalArgumentException();
+
+		BigDecimal bd = BigDecimal.valueOf(value);
+		bd = bd.setScale(places, RoundingMode.HALF_UP);
+		return bd.floatValue();
 	}
 }
